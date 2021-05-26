@@ -189,7 +189,7 @@ function generateHumanTile(human){
 	return newTile;
 }
   
-//Create and add tiles to the 
+//Create and add tiles to the display
 function displayTiles(human){
 	//Get Dinosaurs
 	var dinoObjects = getDinosaurs(DINO_DATA);
