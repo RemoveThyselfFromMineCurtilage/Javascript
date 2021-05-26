@@ -11,7 +11,7 @@ function Dinosaur(dino){
 }
 
 // Create Dinosaur Objects from dinosaur data
-function GetDinosaurs(dinos){
+function getDinosaurs(dinos){
 	var dinoArray = [];
 	dinos.forEach(function(dino){
 		dinoArray.push(new Dinosaur(dino));
@@ -51,23 +51,23 @@ const GetHuman = (function () {
 })();
 
 //The multiplicative factor between an argument larger and smaller number
-function DiffFactor(largerNum, smallerNum){
+function diffFactor(largerNum, smallerNum){
 	return Math.round((largerNum / smallerNum + Number.EPSILON  ) * 100) / 100;
 }
 
 //Compare the weight difference between argument dinosaur and human
-function CompareWeight(dino, human){
+function compareWeight(dino, human){
 	let returnFact = "";
-	let diffFactor = 1;
+	let diff = 1;
 	if(dino.weight > human.weight + 6)
 	{
-		diffFactor = DiffFactor(dino.weight, human.weight);
-		returnFact = dino.species + " weighed about " + diffFactor + " times more than you!";
+		diff = diffFactor(dino.weight, human.weight);
+		returnFact = dino.species + " weighed about " + diff + " times more than you!";
 	}	
 	else if (dino.weight < human.weight - 6)
 	{
-		diffFactor = DiffFactor(human.weight, dino.weight);
-		returnFact = "You weigh about " + diffFactor + " times more than " + dino.species +" did!";
+		diff = diffFactor(human.weight, dino.weight);
+		returnFact = "You weigh about " + diff + " times more than " + dino.species +" did!";
 	}
 	else 
 	{
@@ -77,18 +77,18 @@ function CompareWeight(dino, human){
 }
 
 //Compare height between argument dinosaur and human
-function CompareHeight(dino, human){
+function compareHeight(dino, human){
 	let returnFact = "";
-	let diffFactor = 1;
+	let diff = 1;
 	if(dino.height > human.height + 6)
 	{
-		diffFactor = DiffFactor(dino.height, human.height);
-		returnFact = dino.species + " was about " + diffFactor + " times taller than you!";
+		diff = diffFactor(dino.height, human.height);
+		returnFact = dino.species + " was about " + diff + " times taller than you!";
 	}	
 	else if (dino.height < human.height - 6)
 	{
-		diffFactor = DiffFactor(human.height, dino.height);
-		returnFact = "You were about " + diffFactor + " times taller than " + dino.species +" !";
+		diff = diffFactor(human.height, dino.height);
+		returnFact = "You were about " + diff + " times taller than " + dino.species +" !";
 	}
 	else 
 	{
@@ -98,7 +98,7 @@ function CompareHeight(dino, human){
 }
     
 //Compare the eating habits of the argument dinosaur and human
-function CompareDiet(dino, human){
+function compareDiet(dino, human){
 	let returnFact = "";
 	if(dino.diet == human.diet.toLowerCase())
 	{
@@ -115,8 +115,8 @@ function CompareDiet(dino, human){
 	return returnFact;
 }
 
-
-function GenerateFact(dino, human){
+//Generate a fact to display for the argument dinosaur
+function generateFact(dino, human){
 	let dinoFact = "";
 	let factNum = Math.floor(Math.random() * 5);	
 	
@@ -137,13 +137,13 @@ function GenerateFact(dino, human){
 			dinoFact = dino.species + " lived in present-day " + dino.where;
 			break;
 		case 3: //diet
-			dinoFact = CompareDiet(dino, human);
+			dinoFact = compareDiet(dino, human);
 			break;
 		case 4: //height
-			dinoFact = CompareHeight(dino, human);
+			dinoFact = compareHeight(dino, human);
 			break;
 		case 5: //weight
-			dinoFact = CompareWeight(dino, human);
+			dinoFact = compareWeight(dino, human);
 			break;		
 		default: //The pigeon case
 		break;
@@ -154,7 +154,7 @@ function GenerateFact(dino, human){
 
 
 // Generate Tiles for each Dino in Array
-function GenerateDinoTile(dino,human){
+function generateDinoTile(dino,human){
 	var newTile = document.createElement("div");
 	newTile.classList.add("grid-item");
 	
@@ -167,14 +167,14 @@ function GenerateDinoTile(dino,human){
 	newTile.appendChild(tileImage);
 	
 	var tileFact = document.createElement("p");
-	tileFact.innerHTML = GenerateFact(dino, human);
+	tileFact.innerHTML = generateFact(dino, human);
 	newTile.appendChild(tileFact);
 	
 	return newTile;
 }
 
 // Generate Human Tile
-function GenerateHumanTile(human){
+function generateHumanTile(human){
 	var newTile = document.createElement("div");
 	newTile.classList.add("grid-item");
 	
@@ -190,16 +190,17 @@ function GenerateHumanTile(human){
 }
   
 //Create and add tiles to the 
-function DisplayTiles(human){
+function displayTiles(human){
 	//Get Dinosaurs
-	var dinoObjects = GetDinosaurs(dinoData);
+	var dinoObjects = getDinosaurs(DINO_DATA);
 	
 	//Generate tiles and add them to the grid
 	var mainGrid = document.getElementById("grid");
+	
 	for(let i = 0; i < dinoObjects.length; i++){
-		mainGrid.appendChild(GenerateDinoTile(dinoObjects[i], human));
+		mainGrid.appendChild(generateDinoTile(dinoObjects[i], human));
 		if(i == 3){
-			mainGrid.appendChild(GenerateHumanTile(human));
+			mainGrid.appendChild(generateHumanTile(human));
 		}
 	}
 }	
@@ -212,12 +213,12 @@ document.getElementById("btn").addEventListener("click", function(){
 	document.getElementById("dino-compare").style.display = "none";
 	
 	// Display Tiles
-	DisplayTiles(humanData);
+	displayTiles(humanData);
 });
 
 
 //Provided Dinosaur data
-const dinoData = [
+const DINO_DATA = [
 	{
 		"species": "Triceratops",
 		"weight": 13000,
