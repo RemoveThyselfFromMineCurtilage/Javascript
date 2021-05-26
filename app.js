@@ -52,6 +52,7 @@ const GetHuman = (function () {
 
 //The multiplicative factor between an argument larger and smaller number
 function diffFactor(largerNum, smallerNum){
+	//https://stackoverflow.com/questions/11832914/how-to-round-to-at-most-2-decimal-places-if-necessary
 	return Math.round((largerNum / smallerNum + Number.EPSILON  ) * 100) / 100;
 }
 
